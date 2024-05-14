@@ -23,7 +23,7 @@ const App = () => {
     { id: 3, text: '투두 리스트 만들어보기', done: false },
   ]);
 
-  const onInsesrt = (text) => {
+  const onInsert = (text) => {
     const nextId = todos.length > 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1;
     const todo = {
       id: nextId,
@@ -38,13 +38,18 @@ const App = () => {
     setTodos(nextTodos);
   };
 
+  const onRemove = (id) => {
+    const nextTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(nextTodos);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
         <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: undefined })} style={styles.avoid}>
           <DateHead date={today} />
-          {todos.length === 0 ? <Empty /> : <TodoList todos={todos} onToggle={onToggle} />}
-          <AddTodo onInsert={onInsesrt} />
+          {todos.length === 0 ? <Empty /> : <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />}
+          <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
